@@ -2,11 +2,21 @@
 
 var similarAdsQuantity = 8;
 var typeOfHousing = ['palace', 'flat', 'house', 'bungalo'];
-var times = ['12:00', '13:00', '14:00'];
+var checks = ['12:00', '13:00', '14:00'];
 var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var photos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+var pinMinX = 0;
+var pinMaxX = 1200;
+var pinMinY = 130;
+var pinMaxY = 630;
 var pinGapX = 32;
 var pinGapY = 82;
+var minPrice = 100;
+var maxPrice = 10000;
+var minRoomsQuantity = 1;
+var maxRoomsQuantity = 5;
+var minGuestsQuantity = 1;
+var maxGuestsQuantity = 5;
 var map = document.querySelector('.map__pins');
 
 var getRandomElement = function (arr) {
@@ -25,40 +35,44 @@ function createRandomArray(arr) {
   return randomArr;
 }
 
-var createSimilarAds = function () {
+var createSimilarAds = function (quantity) {
   var similarAds = [];
   var imageNumber = 0;
-  for (var i = 0; i < similarAdsQuantity; i++) {
 
-    similarAds[i] = {};
+  for (var i = 0; i < quantity; i++) {
 
-    similarAds[i].author = {
-      avatar: 'img/avatars/user0' + (++imageNumber) + '.png'
+    var similarAd = {};
+    var url = (imageNumber < 9) ? 'img/avatars/user0' : 'img/avatars/user';
+
+    similarAd.author = {
+      avatar: url + (++imageNumber) + '.png',
     };
 
-    similarAds[i].offer = {
+    similarAd.offer = {
       title: 'title',
       address: '600, 350',
-      price: getRandomNumber(100, 10000),
+      price: getRandomNumber(minPrice, maxPrice),
       type: getRandomElement(typeOfHousing),
-      rooms: getRandomNumber(1, 5),
-      guests: getRandomNumber(1, 10),
-      checkin: getRandomElement(times),
-      checkout: getRandomElement(times),
+      rooms: getRandomNumber(minRoomsQuantity, maxRoomsQuantity),
+      guests: getRandomNumber(minGuestsQuantity, maxGuestsQuantity),
+      checkin: getRandomElement(checks),
+      checkout: getRandomElement(checks),
       features: createRandomArray(features),
       description: 'description',
       photos: createRandomArray(photos),
     };
 
-    similarAds[i].location = {
-      x: getRandomNumber(0, 1200),
-      y: getRandomNumber(130, 630),
+    similarAd.location = {
+      x: getRandomNumber(pinMinX, pinMaxX),
+      y: getRandomNumber(pinMinY, pinMaxY),
     };
+
+    similarAds.push(similarAd);
   }
   return similarAds;
 };
 
-var createAd = function (obj) {
+var createAdElement = function (obj) {
   var template = document.querySelector('#pin').content.querySelector('.map__pin');
   var ad = template.cloneNode(true);
   ad.style.left = obj.location.x + pinGapX + 'px';
@@ -71,11 +85,11 @@ var createAd = function (obj) {
 var renderAds = function (ads, block) {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < ads.length; i++) {
-    fragment.appendChild(createAd(ads[i]));
+    fragment.appendChild(createAdElement(ads[i]));
   }
 
   block.appendChild(fragment);
 };
 
-renderAds(createSimilarAds(), map);
+renderAds(createSimilarAds(similarAdsQuantity), map);
 
