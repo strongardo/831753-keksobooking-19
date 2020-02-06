@@ -2,6 +2,12 @@
 
 var similarAdsQuantity = 8;
 var typesOfHousing = ['palace', 'flat', 'house', 'bungalo'];
+var typeTranslate = {
+  'palace': 'Дворец',
+  'flat': 'Квартира',
+  'house': 'Дом',
+  'bungalo': 'Бунгало',
+};
 var checks = ['12:00', '13:00', '14:00'];
 var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var photos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
@@ -109,17 +115,7 @@ var createCardElement = function (obj) {
   popupTitle.textContent = obj.offer.title;
   popupAddress.textContent = obj.offer.address;
   popupPrice.textContent = obj.offer.price + '₽/ночь';
-
-  if (obj.offer.type === 'flat') {
-    popupType.textContent = 'Квартира';
-  } else if (obj.offer.type === 'bungalo') {
-    popupType.textContent = 'Бунгало';
-  } else if (obj.offer.type === 'house') {
-    popupType.textContent = 'Дом';
-  } else if (obj.offer.type === 'palace') {
-    popupType.textContent = 'Дворец';
-  }
-
+  popupType.textContent = typeTranslate[obj.offer.type];
   popupCapacity.textContent = obj.offer.rooms + ' комнаты для ' + obj.offer.guests + ' гостей.';
   popupTime.textContent = 'Заезд после ' + obj.offer.checkin + ', выезд до ' + obj.offer.checkout + '.';
 
@@ -147,12 +143,12 @@ var createCardElement = function (obj) {
   return card;
 };
 
-var renderCards = function (arr, block, beforeBlock) {
-  var card = createCardElement(arr[0]);
+var renderCard = function (obj, block, beforeBlock) {
+  var card = createCardElement(obj);
   block.insertBefore(card, beforeBlock);
 };
 
 var housingData = createSimilarAds(similarAdsQuantity);
 
 renderAds(housingData, map);
-renderCards(housingData, map, mapContainer);
+renderCard(housingData[0], map, mapContainer);
