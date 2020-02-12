@@ -35,6 +35,11 @@ var adFormFieldsets = adForm.querySelectorAll('fieldset');
 var adFormAddress = adForm.querySelector('#address');
 var adFormRoomNumber = adForm.querySelector('#room_number');
 var adFormCapacity = adForm.querySelector('#capacity');
+var capacityOptions = adFormCapacity.querySelectorAll('option');
+var capacityThree = adFormCapacity.querySelector('option[value="3"]');
+var capacityTwo = adFormCapacity.querySelector('option[value="2"]');
+var capacityOne = adFormCapacity.querySelector('option[value="1"]');
+var capacityZero = adFormCapacity.querySelector('option[value="0"]');
 
 var getRandomElement = function (arr) {
   return arr[Math.floor(Math.random() * (arr.length))];
@@ -171,6 +176,9 @@ var enableActiveMode = function () {
   for (var i = 0; i < adFormFieldsets.length; i++) {
     adFormFieldsets[i].removeAttribute('disabled');
   }
+  for (var j = 0; j < capacityOptions.length; j++) {
+    capacityOptions[j].setAttribute('disabled', 'disabled');
+  }
 };
 
 var fillAddress = function () {
@@ -200,21 +208,36 @@ mainPin.addEventListener('keydown', function (evt) {
   fillAddress();
 });
 
-var checkCapacityValidity = function () {
-  var isValidity = true;
-  if (adFormCapacity.value === '2' && +adFormRoomNumber.value < 2) {
-    isValidity = false;
-  } else if (adFormCapacity.value === '3' && +adFormRoomNumber.value < 3) {
-    isValidity = false;
-  } else if (adFormRoomNumber.value === '100' && adFormCapacity.value !== '0') {
-    isValidity = false;
-  }
-  return isValidity;
-};
+// var checkCapacityValidity = function () {
+//   var isValidity = true;
+//   if (adFormCapacity.value === '2' && +adFormRoomNumber.value < 2) {
+//     isValidity = false;
+//   } else if (adFormCapacity.value === '3' && +adFormRoomNumber.value < 3) {
+//     isValidity = false;
+//   } else if (adFormRoomNumber.value === '100' && adFormCapacity.value !== '0') {
+//     isValidity = false;
+//   }
+//   return isValidity;
+// };
 
-adFormCapacity.addEventListener('change', function () {
-  if (!checkCapacityValidity()) {
-    adFormCapacity.setCustomValidity('azaza');
+adFormRoomNumber.addEventListener('change', function () {
+  adFormCapacity.value = '';
+  for (var i = 0; i < capacityOptions.length; i++) {
+    capacityOptions[i].removeAttribute('disabled');
+  }
+  if (adFormRoomNumber.value === '100') {
+    capacityThree.setAttribute('disabled', 'disabled');
+    capacityTwo.setAttribute('disabled', 'disabled');
+    capacityOne.setAttribute('disabled', 'disabled');
+  } else if (adFormRoomNumber.value === '3') {
+    capacityZero.setAttribute('disabled', 'disabled');
+  } else if (adFormRoomNumber.value === '2') {
+    capacityThree.setAttribute('disabled', 'disabled');
+    capacityZero.setAttribute('disabled', 'disabled');
+  } else if (adFormRoomNumber.value === '1') {
+    capacityThree.setAttribute('disabled', 'disabled');
+    capacityTwo.setAttribute('disabled', 'disabled');
+    capacityZero.setAttribute('disabled', 'disabled');
   }
 });
 
