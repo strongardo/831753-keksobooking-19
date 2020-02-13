@@ -1,5 +1,6 @@
 'use strict';
 
+var ENTER_KEY = 'Enter';
 var similarAdsQuantity = 8;
 var typesOfHousing = ['palace', 'flat', 'house', 'bungalo'];
 var checks = ['12:00', '13:00', '14:00'];
@@ -29,10 +30,8 @@ var adFormAddress = adForm.querySelector('#address');
 var adFormRoomNumber = adForm.querySelector('#room_number');
 var adFormCapacity = adForm.querySelector('#capacity');
 var capacityOptions = adFormCapacity.querySelectorAll('option');
-var capacityThree = adFormCapacity.querySelector('option[value="3"]');
-var capacityTwo = adFormCapacity.querySelector('option[value="2"]');
-var capacityOne = adFormCapacity.querySelector('option[value="1"]');
-var capacityZero = adFormCapacity.querySelector('option[value="0"]');
+var roomOptionThreeIndex = 3;
+var capacitiOptionZeroIndex = 3;
 
 // utils.js
 var getRandomElement = function (arr) {
@@ -120,44 +119,40 @@ var fillAddress = function () {
   }
 };
 
-var disableFieldsets = function () {
+var toggleFieldsets = function () {
   adFormFieldsets.forEach(function (item) {
     item.disabled = !item.disabled;
   });
 };
 
-var toggleForm = function () {
-  adForm.classList.toggle('ad-form--disabled');
-  disableFieldsets();
-  fillAddress();
-
+var disableCapacityOptions = function () {
   capacityOptions.forEach(function (item) {
     item.disabled = true;
   });
 };
 
+var toggleForm = function () {
+  adForm.classList.toggle('ad-form--disabled');
+  toggleFieldsets();
+  fillAddress();
+
+  disableCapacityOptions();
+};
+
 adFormRoomNumber.addEventListener('change', function () {
   adFormCapacity.value = '';
-  for (var i = 0; i < capacityOptions.length; i++) {
-    capacityOptions[i].removeAttribute('disabled');
-  }
-  if (adFormRoomNumber.value === '100') {
-    capacityThree.setAttribute('disabled', 'disabled');
-    capacityTwo.setAttribute('disabled', 'disabled');
-    capacityOne.setAttribute('disabled', 'disabled');
-  } else if (adFormRoomNumber.value === '3') {
-    capacityZero.setAttribute('disabled', 'disabled');
-  } else if (adFormRoomNumber.value === '2') {
-    capacityThree.setAttribute('disabled', 'disabled');
-    capacityZero.setAttribute('disabled', 'disabled');
-  } else if (adFormRoomNumber.value === '1') {
-    capacityThree.setAttribute('disabled', 'disabled');
-    capacityTwo.setAttribute('disabled', 'disabled');
-    capacityZero.setAttribute('disabled', 'disabled');
+  disableCapacityOptions();
+
+  if (adFormRoomNumber.selectedIndex < roomOptionThreeIndex) {
+    for (var i = 0; i <= adFormRoomNumber.selectedIndex; i++) {
+      adFormCapacity.options[i].disabled = false;
+    }
+  } else {
+    adFormCapacity.options[capacitiOptionZeroIndex].disabled = false;
   }
 });
 
-disableFieldsets();
+toggleFieldsets();
 fillAddress();
 
 // map.js
@@ -173,7 +168,7 @@ mainPin.addEventListener('mousedown', function (evt) {
 });
 
 mainPin.addEventListener('keydown', function (evt) {
-  if (evt.key === 'Enter') {
+  if (evt.key === ENTER_KEY) {
     togglePage();
     renderPins(housingData, mapPinsAria);
   }
