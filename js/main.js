@@ -88,7 +88,7 @@ var createHousingData = function (quantity) {
   return similarAds;
 };
 
-var housingData = createHousingData(similarAdsQuantity);
+// var housingData = createHousingData(similarAdsQuantity);
 
 // pins.js
 var createPin = function (obj) {
@@ -98,16 +98,28 @@ var createPin = function (obj) {
   ad.style.top = obj.location.y + pinGapY + 'px';
   ad.children[0].src = obj.author.avatar;
   ad.children[0].alt = obj.offer.title;
+  ad.classList.add('user-pin');
   return ad;
 };
 
-var renderPins = function (ads, block) {
+var renderPins = function (ads) {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < ads.length; i++) {
     fragment.appendChild(createPin(ads[i]));
   }
+  return fragment;
+};
 
-  block.appendChild(fragment);
+var togglePins = function (fragment) {
+  var pins = mapPinsAria.querySelectorAll('.user-pin');
+
+  if (pins.length) {
+    pins.forEach(function (item) {
+      item.remove();
+    });
+  } else {
+    mapPinsAria.appendChild(fragment);
+  }
 };
 
 // form.js
@@ -139,8 +151,8 @@ var toggleForm = function () {
   disableCapacityOptions();
 };
 
-adFormRoomNumber.addEventListener('change', function () {
-  adFormCapacity.value = '';
+var adFormRoomNumberChangeHandler = function () {
+  adFormCapacity.options[adFormRoomNumber.selectedIndex].selected = true;
   disableCapacityOptions();
 
   if (adFormRoomNumber.selectedIndex < roomOptionThreeIndex) {
@@ -150,8 +162,9 @@ adFormRoomNumber.addEventListener('change', function () {
   } else {
     adFormCapacity.options[capacitiOptionZeroIndex].disabled = false;
   }
-});
+};
 
+adFormRoomNumber.addEventListener('change', adFormRoomNumberChangeHandler);
 toggleFieldsets();
 fillAddress();
 
@@ -160,19 +173,22 @@ var toggleMap = function () {
   map.classList.toggle('map--faded');
 };
 
-mainPin.addEventListener('mousedown', function (evt) {
+var mainPinClickHandler = function (evt) {
   if (evt.buttons === 1) {
     togglePage();
-    renderPins(housingData, mapPinsAria);
+    togglePins(renderPins(createHousingData(similarAdsQuantity)));
   }
-});
+};
 
-mainPin.addEventListener('keydown', function (evt) {
+var mainPinEnterDownHandler = function (evt) {
   if (evt.key === ENTER_KEY) {
     togglePage();
-    renderPins(housingData, mapPinsAria);
+    togglePins(renderPins(createHousingData(similarAdsQuantity)));
   }
-});
+};
+
+mainPin.addEventListener('mousedown', mainPinClickHandler);
+mainPin.addEventListener('keydown', mainPinEnterDownHandler);
 
 // page.js
 var togglePage = function () {
