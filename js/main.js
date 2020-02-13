@@ -88,8 +88,6 @@ var createHousingData = function (quantity) {
   return similarAds;
 };
 
-// var housingData = createHousingData(similarAdsQuantity);
-
 // pins.js
 var createPin = function (obj) {
   var template = document.querySelector('#pin').content.querySelector('.map__pin');
@@ -107,18 +105,23 @@ var renderPins = function (ads) {
   for (var i = 0; i < ads.length; i++) {
     fragment.appendChild(createPin(ads[i]));
   }
-  return fragment;
+  mapPinsAria.appendChild(fragment);
 };
 
-var togglePins = function (fragment) {
+var removePins = function (pins) {
+  pins.forEach(function (item) {
+    item.remove();
+  });
+};
+
+var togglePins = function () {
   var pins = mapPinsAria.querySelectorAll('.user-pin');
+  var housingData = createHousingData(similarAdsQuantity);
 
   if (pins.length) {
-    pins.forEach(function (item) {
-      item.remove();
-    });
+    removePins(pins);
   } else {
-    mapPinsAria.appendChild(fragment);
+    renderPins(housingData);
   }
 };
 
@@ -176,14 +179,14 @@ var toggleMap = function () {
 var mainPinClickHandler = function (evt) {
   if (evt.buttons === 1) {
     togglePage();
-    togglePins(renderPins(createHousingData(similarAdsQuantity)));
+    togglePins();
   }
 };
 
 var mainPinEnterDownHandler = function (evt) {
   if (evt.key === ENTER_KEY) {
     togglePage();
-    togglePins(renderPins(createHousingData(similarAdsQuantity)));
+    togglePins();
   }
 };
 
