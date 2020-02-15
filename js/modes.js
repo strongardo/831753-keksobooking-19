@@ -11,9 +11,9 @@
 
   var togglePage = function () {
     toggleMap();
-    window.form.toggleForm();
-    window.pins.togglePins();
-    window.card.toggleCard();
+    window.form.toggle();
+    window.pins.toggle();
+    window.card.toggle();
   };
 
   var mainPinClickHandler = function (evt) {

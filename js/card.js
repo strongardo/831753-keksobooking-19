@@ -90,7 +90,7 @@
 
   var getStartCardData = function () {
     var objIndex = window.utils.getRandomNumber(minIndex, maxIndex);
-    var obj = window.data(objectsQuantity)[objIndex];
+    var obj = window.data.create(objectsQuantity)[objIndex];
     return obj;
   };
 
@@ -105,7 +105,7 @@
   };
 
   window.card = {
-    renderCard: renderCard,
-    toggleCard: toggleCard,
+    render: renderCard,
+    toggle: toggleCard,
   };
 })();

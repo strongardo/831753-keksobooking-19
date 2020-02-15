@@ -18,12 +18,12 @@
   };
 
   var renderPins = function () {
-    var housingData = window.data(objectsQuantity);
+    var housingData = window.data.create(objectsQuantity);
     var fragment = document.createDocumentFragment();
     housingData.forEach(function (item) {
       var pin = createPin(item);
       pin.addEventListener('click', function () {
-        window.card.renderCard(item);
+        window.card.render(item);
       });
       fragment.appendChild(pin);
     });
@@ -38,7 +38,7 @@
 
   var togglePins = function () {
     var pins = mapPinsAria.querySelectorAll('.user-pin');
-    var housingData = window.data(objectsQuantity);
+    var housingData = window.data.create(objectsQuantity);
 
     if (pins.length) {
       removePins(pins);
@@ -48,8 +48,8 @@
   };
 
   window.pins = {
-    renderPins: renderPins,
-    togglePins: togglePins,
-    removePins: removePins,
+    render: renderPins,
+    toggle: togglePins,
+    remove: removePins,
   };
 })();

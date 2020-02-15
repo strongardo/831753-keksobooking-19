@@ -53,5 +53,7 @@
     return similarAds;
   };
 
-  window.data = createHousingData;
+  window.data = {
+    create: createHousingData,
+  };
 })();

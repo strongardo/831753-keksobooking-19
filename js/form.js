@@ -94,6 +94,6 @@
   fillAddress();
 
   window.form = {
-    toggleForm: toggleForm,
+    toggle: toggleForm,
   };
 })();
