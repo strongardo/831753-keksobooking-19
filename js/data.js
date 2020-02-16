@@ -15,8 +15,11 @@
   var checks = ['12:00', '13:00', '14:00'];
   var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
   var photos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+  var getRandomNumber = window.utils.getRandomNumber;
+  var getRandomElement = window.utils.getRandomElement;
+  var createRandomArray = window.utils.createRandomArray;
 
-  var createHousingData = function (quantity) {
+  var createData = function (quantity) {
     var similarAds = [];
     var imageNumber = 0;
 
@@ -32,20 +35,20 @@
       similarAd.offer = {
         title: 'title',
         address: '600, 350',
-        price: window.utils.getRandomNumber(minPrice, maxPrice),
-        type: window.utils.getRandomElement(typesOfHousing),
-        rooms: window.utils.getRandomNumber(minRoomsQuantity, maxRoomsQuantity),
-        guests: window.utils.getRandomNumber(minGuestsQuantity, maxGuestsQuantity),
-        checkin: window.utils.getRandomElement(checks),
-        checkout: window.utils.getRandomElement(checks),
-        features: window.utils.createRandomArray(features),
+        price: getRandomNumber(minPrice, maxPrice),
+        type: getRandomElement(typesOfHousing),
+        rooms: getRandomNumber(minRoomsQuantity, maxRoomsQuantity),
+        guests: getRandomNumber(minGuestsQuantity, maxGuestsQuantity),
+        checkin: getRandomElement(checks),
+        checkout: getRandomElement(checks),
+        features: createRandomArray(features),
         description: 'description',
-        photos: window.utils.createRandomArray(photos),
+        photos: createRandomArray(photos),
       };
 
       similarAd.location = {
-        x: window.utils.getRandomNumber(pinMinX, pinMaxX),
-        y: window.utils.getRandomNumber(pinMinY, pinMaxY),
+        x: getRandomNumber(pinMinX, pinMaxX),
+        y: getRandomNumber(pinMinY, pinMaxY),
       };
 
       similarAds.push(similarAd);
@@ -54,6 +57,6 @@
   };
 
   window.data = {
-    create: createHousingData,
+    create: createData,
   };
 })();

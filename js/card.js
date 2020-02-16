@@ -15,6 +15,8 @@
   };
 
   var mapFiltres = map.querySelector('.map__filters-container');
+  var getRandomNumber = window.utils.getRandomNumber;
+  var createData = window.data.create;
 
   var addClosing = function (card) {
     var cardClose = card.querySelector('.popup__close');
@@ -89,8 +91,8 @@
   };
 
   var getStartCardData = function () {
-    var objIndex = window.utils.getRandomNumber(minIndex, maxIndex);
-    var obj = window.data.create(objectsQuantity)[objIndex];
+    var objIndex = getRandomNumber(minIndex, maxIndex);
+    var obj = createData(objectsQuantity)[objIndex];
     return obj;
   };
 
