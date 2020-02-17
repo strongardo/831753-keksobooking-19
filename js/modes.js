@@ -8,6 +8,8 @@
   var togglePins = window.pins.toggle;
   var toggleCard = window.card.toggle;
 
+  window.isActive = false;
+
   var toggleMap = function () {
     map.classList.toggle('map--faded');
   };
@@ -19,18 +21,20 @@
     toggleCard();
   };
 
-  var mainPinClickHandler = function (evt) {
+  var mainPinMouseDownHandler = function (evt) {
     if (evt.buttons === 1) {
       togglePage();
+      mainPin.removeEventListener('mousedown', mainPinMouseDownHandler);
     }
   };
 
   var mainPinEnterDownHandler = function (evt) {
     if (evt.key === ENTER_KEY) {
       togglePage();
+      mainPin.removeEventListener('keydown', mainPinEnterDownHandler);
     }
   };
 
-  mainPin.addEventListener('mousedown', mainPinClickHandler);
+  mainPin.addEventListener('mousedown', mainPinMouseDownHandler);
   mainPin.addEventListener('keydown', mainPinEnterDownHandler);
 })();
