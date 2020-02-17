@@ -7,7 +7,7 @@
   var mainPinY = 375;
   var mainPinGap = 80;
   var pinGapX = 32;
-  var pinGapY = 82;
+  var pinGapY = 80;
   var fieldsets = form.querySelectorAll('fieldset');
   var typeSelect = form.querySelector('#type');
   var price = form.querySelector('#price');
@@ -26,11 +26,11 @@
     'bungalo': '0',
   };
 
-  var fillAddress = function () {
+  var fillAddress = function (xCoordinate, yCoordinate) {
     if (form.classList.contains('ad-form--disabled')) {
-      address.value = (mainPinX + mainPinGap) + ', ' + (mainPinY + mainPinGap);
+      address.value = (xCoordinate + mainPinGap) + ', ' + (yCoordinate + mainPinGap);
     } else {
-      address.value = (mainPinX + pinGapX) + ', ' + (mainPinY + pinGapY);
+      address.value = (xCoordinate + pinGapX) + ', ' + (yCoordinate + pinGapY);
     }
   };
 
@@ -53,7 +53,7 @@
   var toggleForm = function () {
     form.classList.toggle('ad-form--disabled');
     toggleFieldsets();
-    fillAddress();
+    fillAddress(mainPinX, mainPinY);
     disableCapacityOptions();
     disablePrice();
   };
@@ -91,9 +91,10 @@
   timeoutSelect.addEventListener('change', timeoutSelectChangeHandler);
 
   toggleFieldsets();
-  fillAddress();
+  fillAddress(mainPinX, mainPinY);
 
   window.form = {
     toggle: toggleForm,
+    fillAddress: fillAddress,
   };
 })();
