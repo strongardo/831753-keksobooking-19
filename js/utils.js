@@ -9,9 +9,9 @@
     return Math.floor(Math.random() * (max - min) + min);
   }
 
-  function createRandomArray(arr) {
+  function createRandomArray(arr, quantity) {
     var randomArr = [];
-    for (var i = 0; i < getRandomNumber(1, arr.length + 1); i++) {
+    for (var i = 0; i < quantity; i++) {
       randomArr.push(arr[i]);
     }
     return randomArr;

@@ -5,8 +5,8 @@
   var pinGapY = 82;
   var mapPinsAria = document.querySelector('.map__pins');
   var objectsQuantity = 8;
-  var createData = window.data.create;
   var renderCard = window.card.render;
+  var createRandomArray = window.utils.createRandomArray;
 
   var createPin = function (obj) {
     var template = document.querySelector('#pin').content.querySelector('.map__pin');
@@ -19,10 +19,10 @@
     return ad;
   };
 
-  var renderPins = function () {
-    var housingData = createData(objectsQuantity);
+  var renderPins = function (serverData) {
+    var data = createRandomArray(serverData, objectsQuantity);
     var fragment = document.createDocumentFragment();
-    housingData.forEach(function (item) {
+    data.forEach(function (item) {
       var pin = createPin(item);
       pin.addEventListener('click', function () {
         renderCard(item);
@@ -32,26 +32,15 @@
     mapPinsAria.appendChild(fragment);
   };
 
-  var removePins = function (pins) {
+  var removePins = function () {
+    var pins = mapPinsAria.querySelectorAll('.user-pin');
     pins.forEach(function (item) {
       item.remove();
     });
   };
 
-  var togglePins = function () {
-    var pins = mapPinsAria.querySelectorAll('.user-pin');
-    var housingData = createData(objectsQuantity);
-
-    if (pins.length) {
-      removePins(pins);
-    } else {
-      renderPins(housingData);
-    }
-  };
-
   window.pins = {
     render: renderPins,
-    toggle: togglePins,
     remove: removePins,
   };
 })();

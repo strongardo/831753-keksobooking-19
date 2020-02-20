@@ -5,20 +5,23 @@
   var map = document.querySelector('.map');
   var mainPin = map.querySelector('.map__pin--main');
   var toggleForm = window.form.toggle;
-  var togglePins = window.pins.toggle;
-  var toggleCard = window.card.toggle;
-
-  window.isActive = false;
+  var downloadData = window.server.downloadData;
+  var removePins = window.pins.remove;
+  var isActive = false;
 
   var toggleMap = function () {
     map.classList.toggle('map--faded');
   };
 
   var togglePage = function () {
+    isActive = !isActive;
+    if (isActive) {
+      downloadData();
+    } else {
+      removePins();
+    }
     toggleMap();
     toggleForm();
-    togglePins();
-    toggleCard();
   };
 
   var mainPinMouseDownHandler = function (evt) {

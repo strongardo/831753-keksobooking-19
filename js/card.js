@@ -3,9 +3,6 @@
 (function () {
   var ESCAPE_KEY = 'Escape';
   var map = document.querySelector('.map');
-  var objectsQuantity = 8;
-  var minIndex = 0;
-  var maxIndex = 7;
 
   var typeTranslate = {
     'palace': 'Дворец',
@@ -15,8 +12,6 @@
   };
 
   var mapFiltres = map.querySelector('.map__filters-container');
-  var getRandomNumber = window.utils.getRandomNumber;
-  var createData = window.data.create;
 
   var addClosing = function (card) {
     var cardClose = card.querySelector('.popup__close');
@@ -90,24 +85,7 @@
     map.insertBefore(card, mapFiltres);
   };
 
-  var getStartCardData = function () {
-    var objIndex = getRandomNumber(minIndex, maxIndex);
-    var obj = createData(objectsQuantity)[objIndex];
-    return obj;
-  };
-
-  var toggleCard = function () {
-    card = map.querySelector('.map__card');
-
-    if (card) {
-      removeCard(card);
-    } else {
-      var card = renderCard(getStartCardData());
-    }
-  };
-
   window.card = {
     render: renderCard,
-    toggle: toggleCard,
   };
 })();
