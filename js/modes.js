@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var ENTER_KEY = 'Enter';
+  var ENTER_KEY = window.constants.ENTER_KEY;
   var map = document.querySelector('.map');
   var mainPin = map.querySelector('.map__pin--main');
   var toggleForm = window.form.toggle;

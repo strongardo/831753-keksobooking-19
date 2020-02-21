@@ -1,15 +1,15 @@
 'use strict';
 
 (function () {
+  var MIN_LIMIT_X = window.constants.MIN_LIMIT_X;
+  var MAX_LIMIT_X = window.constants.MAX_LIMIT_X;
+  var MIN_LIMIT_Y = window.constants.MIN_LIMIT_Y;
+  var MAX_LIMIT_Y = window.constants.MAX_LIMIT_Y;
+  var PIN_GAP_X = window.constants.PIN_GAP_X;
+  var PIN_GAP_Y = window.constants.PIN_GAP_Y;
   var map = document.querySelector('.map');
   var mainPin = map.querySelector('.map__pin--main');
   var fillAddress = window.form.fillAddress;
-  var minLimitX = 0;
-  var maxLimitX = 1197;
-  var minLimitY = 130;
-  var maxLimitY = 630;
-  var pinGapX = 31;
-  var pinGapY = 80;
 
   mainPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
@@ -35,18 +35,18 @@
       var mainPinX = mainPin.offsetLeft - shift.x;
       var mainPinY = mainPin.offsetTop - shift.y;
 
-      if (mainPinY < minLimitY - pinGapY) {
-        mainPin.style.top = minLimitY - pinGapY + 'px';
-      } else if (mainPinY > maxLimitY - pinGapY) {
-        mainPin.style.top = maxLimitY - pinGapY + 'px';
+      if (mainPinY < MIN_LIMIT_Y - PIN_GAP_Y) {
+        mainPin.style.top = MIN_LIMIT_Y - PIN_GAP_Y + 'px';
+      } else if (mainPinY > MAX_LIMIT_Y - PIN_GAP_Y) {
+        mainPin.style.top = MAX_LIMIT_Y - PIN_GAP_Y + 'px';
       } else {
         mainPin.style.top = mainPinY + 'px';
       }
 
-      if (mainPinX < minLimitX - pinGapX) {
-        mainPin.style.left = minLimitX - pinGapX + 'px';
-      } else if (mainPinX > maxLimitX - pinGapX) {
-        mainPin.style.left = maxLimitX - pinGapX + 'px';
+      if (mainPinX < MIN_LIMIT_X - PIN_GAP_X) {
+        mainPin.style.left = MIN_LIMIT_X - PIN_GAP_X + 'px';
+      } else if (mainPinX > MAX_LIMIT_X - PIN_GAP_X) {
+        mainPin.style.left = MAX_LIMIT_X - PIN_GAP_X + 'px';
       } else {
         mainPin.style.left = mainPinX + 'px';
       }
