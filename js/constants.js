@@ -10,10 +10,15 @@
     MAIN_PIN_Y: 375,
     MAIN_PIN_GAP: 80,
     MAX_OFFERS: 8,
+    MIN_LIMIT_X: 0,
+    MAX_LIMIT_X: 1198,
+    MIN_LIMIT_Y: 130,
+    MAX_LIMIT_Y: 630,
     HUNDRED_ROOMS_INDEX: 3,
     NOT_FOR_GUESTS_INDEX: 3,
     TIMEOUT_IN_MS: 10000,
-    URL: 'https://js.dump.academy/keksobooking/data',
+    DOWNLOAD_URL: 'https://js.dump.academy/keksobooking/data',
+    UPLOAD_URL: 'https://js.dump.academy/keksobooking',
     StatusCodeMap: {
       OK: 200
     },

@@ -65,20 +65,21 @@
     return card;
   };
 
-  var removeCard = function (card) {
-    card.remove();
+  var removeCard = function () {
+    var card = map.querySelector('.popup');
+    if (card) {
+      card.remove();
+    }
   };
 
   var renderCard = function (obj) {
-    var popup = map.querySelector('.popup');
-    if (popup) {
-      removeCard(popup);
-    }
+    removeCard();
     var card = createCardElement(obj);
     map.insertBefore(card, mapFiltres);
   };
 
   window.card = {
     render: renderCard,
+    remove: removeCard,
   };
 })();

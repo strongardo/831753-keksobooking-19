@@ -1,28 +1,24 @@
 'use strict';
 
 (function () {
-  var URL = window.constants.URL;
+  var DOWNLOAD_URL = window.constants.DOWNLOAD_URL;
   var TIMEOUT_IN_MS = window.constants.TIMEOUT_IN_MS;
   var StatusCode = window.constants.StatusCodeMap;
   var renderPins = window.pins.render;
+  var toggleForm = window.form.toggle;
+  var createMessage = window.messages.createDownloadMessage;
 
-  var xhrErrorHandler = function (textContent) {
-    var node = document.createElement('div');
-    node.style = 'z-index: 100; text-align: center; background-color: red;';
-    node.style.position = 'absolute';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = '30px';
-    node.textContent = textContent;
-    document.body.insertAdjacentElement('afterbegin', node);
+  var xhrErrorHandler = function (text) {
+    createMessage(text);
   };
 
-  var downloadData = function () {
+  var getData = function () {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
       if (xhr.status === StatusCode.OK) {
         renderPins(xhr.response);
+        toggleForm();
       } else {
         xhrErrorHandler('Произошла ошибка соединения, попробуйте обновить страницу позже');
       }
@@ -34,12 +30,12 @@
       xhrErrorHandler('Запрос выполняется слишком долго, попробуйте обновить страницу позже');
     });
     xhr.timeout = TIMEOUT_IN_MS;
-    xhr.open('GET', URL);
+    xhr.open('GET', DOWNLOAD_URL);
     xhr.send();
   };
 
-  window.server = {
-    downloadData: downloadData,
+  window.download = {
+    getData: getData,
   };
 })();
 

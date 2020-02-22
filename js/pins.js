@@ -10,8 +10,8 @@
   var createPin = function (obj) {
     var template = document.querySelector('#pin').content.querySelector('.map__pin');
     var ad = template.cloneNode(true);
-    ad.style.left = obj.location.x + PIN_GAP_X + 'px';
-    ad.style.top = obj.location.y + PIN_GAP_Y + 'px';
+    ad.style.left = obj.location.x - PIN_GAP_X + 'px';
+    ad.style.top = obj.location.y - PIN_GAP_Y + 'px';
     ad.children[0].src = obj.author.avatar;
     ad.children[0].alt = obj.offer.title;
     ad.classList.add('user-pin');

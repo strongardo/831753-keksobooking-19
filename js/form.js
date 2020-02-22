@@ -17,8 +17,11 @@
   var timeinSelect = form.querySelector('#timein');
   var timeoutSelect = form.querySelector('#timeout');
   var capacitySelect = form.querySelector('#capacity');
+  var template = document.querySelector('#success').content.querySelector('.success');
   var capacityOptions = capacitySelect.querySelectorAll('option');
   var PriceMap = window.constants.PriceMap;
+  var uploadData = window.upload.sendData;
+  var createMessage = window.messages.createUploadMessage;
 
   var fillAddress = function (xCoordinate, yCoordinate) {
     if (form.classList.contains('ad-form--disabled')) {
@@ -35,21 +38,17 @@
   };
 
   var disableCapacityOptions = function () {
-    capacityOptions.forEach(function (item) {
-      item.disabled = true;
-    });
-  };
-
-  var disablePrice = function () {
-    price.disabled = true;
+    for (var i = 1; i < capacityOptions.length; i++) {
+      capacityOptions[i].disabled = true;
+    }
   };
 
   var toggleForm = function () {
+    form.reset();
     form.classList.toggle('ad-form--disabled');
     toggleFieldsets();
     fillAddress(MAIN_PIN_X, MAIN_PIN_Y);
     disableCapacityOptions();
-    disablePrice();
   };
 
   var timeinSelectChangeHandler = function () {
@@ -86,6 +85,16 @@
 
   toggleFieldsets();
   fillAddress(MAIN_PIN_X, MAIN_PIN_Y);
+
+  var formSubmitHandler = function () {
+    toggleForm();
+    createMessage(template);
+  };
+
+  form.addEventListener('submit', function (evt) {
+    uploadData(new FormData(form), formSubmitHandler);
+    evt.preventDefault();
+  });
 
   window.form = {
     toggle: toggleForm,
