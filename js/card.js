@@ -1,22 +1,10 @@
 'use strict';
 
 (function () {
-  var ESCAPE_KEY = 'Escape';
+  var ESCAPE_KEY = window.constants.ESCAPE_KEY;
   var map = document.querySelector('.map');
-  var objectsQuantity = 8;
-  var minIndex = 0;
-  var maxIndex = 7;
-
-  var typeTranslate = {
-    'palace': 'Дворец',
-    'flat': 'Квартира',
-    'house': 'Дом',
-    'bungalo': 'Бунгало',
-  };
-
+  var TypeTranslate = window.constants.TypeMap;
   var mapFiltres = map.querySelector('.map__filters-container');
-  var getRandomNumber = window.utils.getRandomNumber;
-  var createData = window.data.create;
 
   var addClosing = function (card) {
     var cardClose = card.querySelector('.popup__close');
@@ -47,7 +35,7 @@
     popupTitle.textContent = obj.offer.title;
     popupAddress.textContent = obj.offer.address;
     popupPrice.textContent = obj.offer.price + '₽/ночь';
-    popupType.textContent = typeTranslate[obj.offer.type];
+    popupType.textContent = TypeTranslate[obj.offer.type];
     popupCapacity.textContent = obj.offer.rooms + ' комнаты для ' + obj.offer.guests + ' гостей.';
     popupTime.textContent = 'Заезд после ' + obj.offer.checkin + ', выезд до ' + obj.offer.checkout + '.';
 
@@ -77,37 +65,21 @@
     return card;
   };
 
-  var removeCard = function (card) {
-    card.remove();
+  var removeCard = function () {
+    var card = map.querySelector('.popup');
+    if (card) {
+      card.remove();
+    }
   };
 
   var renderCard = function (obj) {
-    var popup = map.querySelector('.popup');
-    if (popup) {
-      removeCard(popup);
-    }
+    removeCard();
     var card = createCardElement(obj);
     map.insertBefore(card, mapFiltres);
   };
 
-  var getStartCardData = function () {
-    var objIndex = getRandomNumber(minIndex, maxIndex);
-    var obj = createData(objectsQuantity)[objIndex];
-    return obj;
-  };
-
-  var toggleCard = function () {
-    card = map.querySelector('.map__card');
-
-    if (card) {
-      removeCard(card);
-    } else {
-      var card = renderCard(getStartCardData());
-    }
-  };
-
   window.card = {
     render: renderCard,
-    toggle: toggleCard,
+    remove: removeCard,
   };
 })();
