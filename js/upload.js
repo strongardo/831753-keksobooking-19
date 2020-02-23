@@ -10,13 +10,13 @@
   var template = document.querySelector('#error').content.querySelector('.error');
   var createMessage = window.messages.createUploadMessage;
 
-  var xhrUploadSuccessHandler = function () {
+  var xhrSuccessHandler = function () {
     removePins();
     removeCard();
     map.classList.add('map--faded');
   };
 
-  var xhrUploadErrorHandler = function () {
+  var xhrErrorHandler = function () {
     createMessage(template);
   };
 
@@ -27,18 +27,18 @@
     xhr.addEventListener('load', function () {
       if (xhr.status === StatusCode.OK) {
         formSubmitHandler();
-        xhrUploadSuccessHandler();
+        xhrSuccessHandler();
       } else {
-        xhrUploadErrorHandler();
+        xhrErrorHandler();
       }
     });
 
     xhr.addEventListener('error', function () {
-      xhrUploadErrorHandler();
+      xhrErrorHandler();
     });
 
     xhr.addEventListener('timeout', function () {
-      xhrUploadErrorHandler();
+      xhrErrorHandler();
     });
 
     xhr.timeout = TIMEOUT_IN_MS;
