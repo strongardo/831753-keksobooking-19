@@ -5,7 +5,6 @@
   var typeSelect = form.querySelector('#housing-type');
   var selects = form.querySelectorAll('.map__filter');
   var featuresGroup = form.querySelector('.map__features');
-  var getFilteredData = window.filter.getData;
   var removeCard = window.card.remove;
   var renderPins = window.pins.render;
   var removePins = window.pins.remove;
@@ -18,7 +17,12 @@
   };
 
   typeSelect.addEventListener('change', function () {
-    var data = getFilteredData('type', typeSelect.value);
+    var value = typeSelect.value;
+    var isSuited = function (item) {
+      return item.offer.type === value;
+    };
+    var serverData = window.serverData;
+    var data = value === 'any' ? serverData : serverData.filter(isSuited);
     removeCard();
     removePins();
     renderPins(data);
