@@ -8,6 +8,11 @@
   var toggleForm = window.form.toggle;
   var createMessage = window.messages.createDownloadMessage;
 
+  var xhrSuccessHandler = function (data) {
+    renderPins(data);
+    toggleForm();
+  };
+
   var xhrErrorHandler = function (text) {
     createMessage(text);
   };
@@ -17,8 +22,7 @@
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
       if (xhr.status === StatusCode.OK) {
-        renderPins(xhr.response);
-        toggleForm();
+        xhrSuccessHandler(xhr.response);
       } else {
         xhrErrorHandler('Произошла ошибка соединения, попробуйте обновить страницу позже');
       }

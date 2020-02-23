@@ -10,31 +10,35 @@
   var template = document.querySelector('#error').content.querySelector('.error');
   var createMessage = window.messages.createUploadMessage;
 
-  var xhrUploadErrorHandler = function () {
+  var xhrSuccessHandler = function () {
+    removePins();
+    removeCard();
+    map.classList.add('map--faded');
+  };
+
+  var xhrErrorHandler = function () {
     createMessage(template);
   };
 
-  var sendData = function (data, xhrUploadSuccessHandler) {
+  var sendData = function (data, formSubmitHandler) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
       if (xhr.status === StatusCode.OK) {
-        xhrUploadSuccessHandler();
-        removePins();
-        removeCard();
-        map.classList.add('map--faded');
+        formSubmitHandler();
+        xhrSuccessHandler();
       } else {
-        xhrUploadErrorHandler();
+        xhrErrorHandler();
       }
     });
 
     xhr.addEventListener('error', function () {
-      xhrUploadErrorHandler();
+      xhrErrorHandler();
     });
 
     xhr.addEventListener('timeout', function () {
-      xhrUploadErrorHandler();
+      xhrErrorHandler();
     });
 
     xhr.timeout = TIMEOUT_IN_MS;
