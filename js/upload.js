@@ -4,16 +4,12 @@
   var UPLOAD_URL = window.constants.UPLOAD_URL;
   var TIMEOUT_IN_MS = window.constants.TIMEOUT_IN_MS;
   var StatusCode = window.constants.StatusCodeMap;
-  var removePins = window.pins.remove;
-  var removeCard = window.card.remove;
-  var map = document.querySelector('.map');
+  var resetPage = window.inactive.resetPage;
   var template = document.querySelector('#error').content.querySelector('.error');
   var createMessage = window.messages.createUploadMessage;
 
   var xhrSuccessHandler = function () {
-    removePins();
-    removeCard();
-    map.classList.add('map--faded');
+    resetPage();
   };
 
   var xhrErrorHandler = function () {

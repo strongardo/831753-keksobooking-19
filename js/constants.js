@@ -9,7 +9,7 @@
     MAIN_PIN_X: 570,
     MAIN_PIN_Y: 375,
     MAIN_PIN_GAP: 80,
-    MAX_OFFERS: 8,
+    MAX_OFFERS: 5,
     MIN_LIMIT_X: 0,
     MAX_LIMIT_X: 1198,
     MIN_LIMIT_Y: 130,
