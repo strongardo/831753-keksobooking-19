@@ -6,10 +6,13 @@
   var StatusCode = window.constants.StatusCodeMap;
   var renderPins = window.pins.render;
   var toggleForm = window.form.toggle;
+  var toggleFilterForm = window.filterForm.toggle;
   var createMessage = window.messages.createDownloadMessage;
 
   var xhrSuccessHandler = function (data) {
+    window.serverData = data;
     renderPins(data);
+    toggleFilterForm();
     toggleForm();
   };
 

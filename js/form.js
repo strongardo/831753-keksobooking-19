@@ -17,10 +17,12 @@
   var timeinSelect = form.querySelector('#timein');
   var timeoutSelect = form.querySelector('#timeout');
   var capacitySelect = form.querySelector('#capacity');
+  var resetButton = form.querySelector('.ad-form__reset');
   var template = document.querySelector('#success').content.querySelector('.success');
   var capacityOptions = capacitySelect.querySelectorAll('option');
   var PriceMap = window.constants.PriceMap;
   var uploadData = window.upload.sendData;
+  var resetPage = window.inactive.resetPage;
   var createMessage = window.messages.createUploadMessage;
 
   var fillAddress = function (xCoordinate, yCoordinate) {
@@ -83,8 +85,11 @@
   timeinSelect.addEventListener('change', timeinSelectChangeHandler);
   timeoutSelect.addEventListener('change', timeoutSelectChangeHandler);
 
-  toggleFieldsets();
-  fillAddress(MAIN_PIN_X, MAIN_PIN_Y);
+  resetButton.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    toggleForm();
+    resetPage();
+  });
 
   var formSubmitHandler = function () {
     toggleForm();
@@ -95,6 +100,9 @@
     uploadData(new FormData(form), formSubmitHandler);
     evt.preventDefault();
   });
+
+  toggleFieldsets();
+  fillAddress(MAIN_PIN_X, MAIN_PIN_Y);
 
   window.form = {
     toggle: toggleForm,
