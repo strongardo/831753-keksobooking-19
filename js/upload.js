@@ -10,20 +10,24 @@
   var template = document.querySelector('#error').content.querySelector('.error');
   var createMessage = window.messages.createUploadMessage;
 
+  var xhrUploadSuccessHandler = function () {
+    removePins();
+    removeCard();
+    map.classList.add('map--faded');
+  };
+
   var xhrUploadErrorHandler = function () {
     createMessage(template);
   };
 
-  var sendData = function (data, xhrUploadSuccessHandler) {
+  var sendData = function (data, formSubmitHandler) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
       if (xhr.status === StatusCode.OK) {
+        formSubmitHandler();
         xhrUploadSuccessHandler();
-        removePins();
-        removeCard();
-        map.classList.add('map--faded');
       } else {
         xhrUploadErrorHandler();
       }
