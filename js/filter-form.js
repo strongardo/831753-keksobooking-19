@@ -3,6 +3,7 @@
 (function () {
   var MIN_PRICE = window.constants.MIN_PRICE;
   var MAX_PRICE = window.constants.MAX_PRICE;
+  var DEBOUNCE_INTERVAL = window.constants.DEBOUNCE_INTERVAL;
   var form = document.querySelector('.map__filters');
   var typeSelect = form.querySelector('#housing-type');
   var priceSelect = form.querySelector('#housing-price');
@@ -94,12 +95,22 @@
     return typeSuited && priceSuited && roomsSuited && guestsSuited && wifiSuited && conditionerSuited && dishwasherSuited && parkingSuited && washerSuited && elevatorSuited;
   };
 
+  var lastTimeout;
+  var debounce = function (cb) {
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+    lastTimeout = window.setTimeout(cb, DEBOUNCE_INTERVAL);
+  };
+
   var formElementChangeHandler = function () {
-    var serverData = window.serverData;
-    var data = serverData.filter(isSuited);
-    removeCard();
-    removePins();
-    renderPins(data);
+    debounce(function () {
+      var serverData = window.serverData;
+      var data = serverData.filter(isSuited);
+      removeCard();
+      removePins();
+      renderPins(data);
+    });
   };
 
   typeSelect.addEventListener('change', formElementChangeHandler);
