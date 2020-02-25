@@ -11,6 +11,7 @@
   var guestsSelect = form.querySelector('#housing-guests');
   var selects = form.querySelectorAll('.map__filter');
   var featuresGroup = form.querySelector('.map__features');
+  var features = featuresGroup.querySelectorAll('.map__checkbox');
   var wifiFeature = featuresGroup.querySelector('#filter-wifi');
   var dishwasherFeature = featuresGroup.querySelector('#filter-dishwasher');
   var parkingFeature = featuresGroup.querySelector('#filter-parking');
@@ -28,71 +29,46 @@
     featuresGroup.disabled = !featuresGroup.disabled;
   };
 
-  var isSuited = function (item) {
-    var typeSuited = true;
-    var priceSuited = true;
-    var roomsSuited = true;
-    var guestsSuited = true;
-    var wifiSuited = true;
-    var dishwasherSuited = true;
-    var parkingSuited = true;
-    var washerSuited = true;
-    var elevatorSuited = true;
-    var conditionerSuited = true;
+  var isSuitedItem = function (item) {
+    var isSuited = true;
     var featuresArray = item.offer.features;
 
-
-    if (wifiFeature.checked) {
-      wifiSuited = featuresArray.includes('wifi');
-    }
-
-    if (dishwasherFeature.checked) {
-      dishwasherSuited = featuresArray.includes('dishwasher');
-    }
-
-    if (parkingFeature.checked) {
-      parkingSuited = featuresArray.includes('parking');
-    }
-
-    if (washerFeature.checked) {
-      washerSuited = featuresArray.includes('washer');
-    }
-
-    if (elevatorFeature.checked) {
-      elevatorSuited = featuresArray.includes('elevator');
-    }
-
-    if (conditionerFeature.checked) {
-      conditionerSuited = featuresArray.includes('conditioner');
-    }
-
-    if (typeSelect.value !== 'any') {
-      typeSuited = item.offer.type === typeSelect.value;
-    }
-
-    if (priceSelect.value !== 'any') {
-      if (priceSelect.value === 'low') {
-        priceSuited = item.offer.price < MIN_PRICE;
-      } else if (priceSelect.value === 'middle') {
-        priceSuited = item.offer.price >= MIN_PRICE && item.offer.price <= MAX_PRICE;
-      } else {
-        priceSuited = item.offer.price > MAX_PRICE;
+    for (var i = 0; i < features.length && isSuited; i++) {
+      if (features[i].checked) {
+        isSuited = featuresArray.includes(features[i].value);
       }
     }
 
-    if (typeSelect.value !== 'any') {
-      typeSuited = item.offer.type === typeSelect.value;
+    if (typeSelect.value !== 'any' && isSuited) {
+      isSuited = item.offer.type === typeSelect.value;
     }
 
-    if (roomsSelect.value !== 'any') {
-      roomsSuited = item.offer.rooms === +roomsSelect.value;
+    if (priceSelect.value !== 'any' && isSuited) {
+      switch (priceSelect.value) {
+        case 'low':
+          isSuited = item.offer.price < MIN_PRICE;
+          break;
+        case 'middle':
+          isSuited = item.offer.price >= MIN_PRICE && item.offer.price <= MAX_PRICE;
+          break;
+        case 'high':
+          isSuited = item.offer.price > MAX_PRICE;
+      }
     }
 
-    if (guestsSelect.value !== 'any') {
-      guestsSuited = item.offer.guests === guestsSelect.value;
+    if (typeSelect.value !== 'any' && isSuited) {
+      isSuited = item.offer.type === typeSelect.value;
     }
 
-    return typeSuited && priceSuited && roomsSuited && guestsSuited && wifiSuited && conditionerSuited && dishwasherSuited && parkingSuited && washerSuited && elevatorSuited;
+    if (roomsSelect.value !== 'any' && isSuited) {
+      isSuited = item.offer.rooms === +roomsSelect.value;
+    }
+
+    if (guestsSelect.value !== 'any' && isSuited) {
+      isSuited = item.offer.guests === guestsSelect.value;
+    }
+
+    return isSuited;
   };
 
   var lastTimeout;
@@ -106,7 +82,7 @@
   var formElementChangeHandler = function () {
     debounce(function () {
       var serverData = window.serverData;
-      var data = serverData.filter(isSuited);
+      var data = serverData.filter(isSuitedItem);
       removeCard();
       removePins();
       renderPins(data);
