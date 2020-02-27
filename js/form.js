@@ -8,6 +8,7 @@
   var PIN_GAP_Y = window.constants.PIN_GAP_Y;
   var HUNDRED_ROOMS_INDEX = window.constants.HUNDRED_ROOMS_INDEX;
   var NOT_FOR_GUESTS_INDEX = window.constants.NOT_FOR_GUESTS_INDEX;
+  var AVATAR_URL = window.constants.AVATAR_URL;
   var form = document.querySelector('.ad-form');
   var address = form.querySelector('#address');
   var fieldsets = form.querySelectorAll('fieldset');
@@ -18,6 +19,8 @@
   var timeoutSelect = form.querySelector('#timeout');
   var capacitySelect = form.querySelector('#capacity');
   var resetButton = form.querySelector('.ad-form__reset');
+  var avatar = form.querySelector('.ad-form-header__preview img[alt="Аватар пользователя"]');
+  var housingImage = form.querySelector('.ad-form__photo');
   var template = document.querySelector('#success').content.querySelector('.success');
   var capacityOptions = capacitySelect.querySelectorAll('option');
   var PriceMap = window.constants.PriceMap;
@@ -45,12 +48,23 @@
     }
   };
 
+  var resetPricePlaceholder = function () {
+    price.placeholder = PriceMap[typeSelect.value];
+  };
+
+  var resetImages = function () {
+    avatar.src = AVATAR_URL;
+    housingImage.style.backgroundImage = 'none';
+  };
+
   var toggleForm = function () {
     form.reset();
     form.classList.toggle('ad-form--disabled');
     toggleFieldsets();
     fillAddress(MAIN_PIN_X, MAIN_PIN_Y);
     disableCapacityOptions();
+    resetPricePlaceholder();
+    resetImages();
   };
 
   var timeinSelectChangeHandler = function () {
