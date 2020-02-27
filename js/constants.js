@@ -21,6 +21,8 @@
     MIN_PRICE: 10000,
     MAX_PRICE: 50000,
     DEBOUNCE_INTERVAL: 500,
+    AVATAR_URL: 'img/muffin-grey.svg',
+    FILE_TYPES: ['gif', 'jpg', 'jpeg', 'png'],
     TIMEOUT_IN_MS: 10000,
     DOWNLOAD_URL: 'https://js.dump.academy/keksobooking/data',
     UPLOAD_URL: 'https://js.dump.academy/keksobooking',

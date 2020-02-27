@@ -30,45 +30,45 @@
   };
 
   var isSuitedItem = function (item) {
-    var isSuited = true;
+    var isFeaturesSuited = true;
+    var isTypeSuited = true;
+    var isPriceSuited = true;
+    var isRoomsSuited = true;
+    var isGuestsSuited = true;
     var featuresArray = item.offer.features;
 
-    for (var i = 0; i < features.length && isSuited; i++) {
+    for (var i = 0; i < features.length && isFeaturesSuited; i++) {
       if (features[i].checked) {
-        isSuited = featuresArray.includes(features[i].value);
+        isFeaturesSuited = featuresArray.includes(features[i].value);
       }
     }
 
-    if (typeSelect.value !== 'any' && isSuited) {
-      isSuited = item.offer.type === typeSelect.value;
+    if (typeSelect.value !== 'any') {
+      isTypeSuited = item.offer.type === typeSelect.value;
     }
 
-    if (priceSelect.value !== 'any' && isSuited) {
+    if (priceSelect.value !== 'any') {
       switch (priceSelect.value) {
         case 'low':
-          isSuited = item.offer.price < MIN_PRICE;
+          isPriceSuited = item.offer.price < MIN_PRICE;
           break;
         case 'middle':
-          isSuited = item.offer.price >= MIN_PRICE && item.offer.price <= MAX_PRICE;
+          isPriceSuited = item.offer.price >= MIN_PRICE && item.offer.price <= MAX_PRICE;
           break;
         case 'high':
-          isSuited = item.offer.price > MAX_PRICE;
+          isPriceSuited = item.offer.price > MAX_PRICE;
       }
     }
 
-    if (typeSelect.value !== 'any' && isSuited) {
-      isSuited = item.offer.type === typeSelect.value;
+    if (roomsSelect.value !== 'any') {
+      isRoomsSuited = item.offer.rooms === +roomsSelect.value;
     }
 
-    if (roomsSelect.value !== 'any' && isSuited) {
-      isSuited = item.offer.rooms === +roomsSelect.value;
+    if (guestsSelect.value !== 'any') {
+      isGuestsSuited = item.offer.guests === guestsSelect.value;
     }
 
-    if (guestsSelect.value !== 'any' && isSuited) {
-      isSuited = item.offer.guests === guestsSelect.value;
-    }
-
-    return isSuited;
+    return isFeaturesSuited && isTypeSuited && isPriceSuited && isRoomsSuited && isGuestsSuited;
   };
 
   var lastTimeout;
