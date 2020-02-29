@@ -1,6 +1,9 @@
 'use strict';
 
 (function () {
+  var ESCAPE_KEY = window.constants.ESCAPE_KEY;
+  var container = document.querySelector('main');
+
   var createDownloadMessage = function (text) {
     var node = document.createElement('div');
     node.style = 'z-index: 100; text-align: center; background-color: red;';
@@ -14,9 +17,8 @@
   };
 
   var createUploadMessage = function (template) {
-    var ESCAPE_KEY = window.constants.ESCAPE_KEY;
     var node = template.cloneNode(true);
-    var buttonClose = node.querySelector('.error__button');
+    var closeButton = node.querySelector('.error__button');
 
     var removeNode = function () {
       node.remove();
@@ -24,7 +26,7 @@
       document.removeEventListener('click', documentClickHandler);
     };
 
-    var buttonCloseClickHandler = function () {
+    var closeButtonClickHandler = function () {
       removeNode();
     };
 
@@ -38,15 +40,14 @@
       removeNode();
     };
 
-    if (buttonClose) {
-      buttonClose.addEventListener('click', buttonCloseClickHandler);
+    if (closeButton) {
+      closeButton.addEventListener('click', closeButtonClickHandler);
     }
 
     document.addEventListener('keydown', documentEscKeydownHandler);
     document.addEventListener('click', documentClickHandler);
 
-    var main = document.querySelector('main');
-    main.appendChild(node);
+    container.appendChild(node);
   };
 
   window.messages = {

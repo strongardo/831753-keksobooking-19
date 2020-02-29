@@ -23,6 +23,7 @@
   var removePins = window.pins.remove;
 
   var toggleForm = function () {
+    form.reset();
     selects.forEach(function (item) {
       item.disabled = !item.disabled;
     });

@@ -3,7 +3,7 @@
 (function () {
   var DOWNLOAD_URL = window.constants.DOWNLOAD_URL;
   var TIMEOUT_IN_MS = window.constants.TIMEOUT_IN_MS;
-  var StatusCode = window.constants.StatusCodeMap;
+  var StatusCodeMap = window.constants.StatusCodeMap;
   var renderPins = window.pins.render;
   var toggleForm = window.form.toggle;
   var toggleFilterForm = window.filterForm.toggle;
@@ -24,7 +24,7 @@
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
-      if (xhr.status === StatusCode.OK) {
+      if (xhr.status === StatusCodeMap.OK) {
         xhrSuccessHandler(xhr.response);
       } else {
         xhrErrorHandler('Произошла ошибка соединения, попробуйте обновить страницу позже');

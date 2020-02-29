@@ -5,23 +5,42 @@
   var FEATURE_CLASS_INDEX = window.constants.FEATURE_CLASS_INDEX;
   var FEATURE_NAME_START_INDEX = window.constants.FEATURE_NAME_START_INDEX;
   var map = document.querySelector('.map');
+  var mapPinsAria = document.querySelector('.map__pins');
   var TypeTranslate = window.constants.TypeMap;
   var mapFiltres = map.querySelector('.map__filters-container');
+  var template = document.querySelector('#card').content.querySelector('.map__card');
 
-  var addClosing = function (card) {
-    var cardClose = card.querySelector('.popup__close');
-    cardClose.addEventListener('click', function () {
-      card.style.display = 'none';
-    });
-    document.addEventListener('keydown', function (evt) {
-      if (evt.key === ESCAPE_KEY) {
-        card.style.display = 'none';
+  var removePinShadow = function () {
+    var pins = mapPinsAria.querySelectorAll('.user-pin');
+    pins.forEach(function (mark) {
+      if (mark.classList.contains('map__pin--active')) {
+        mark.classList.remove('map__pin--active');
       }
     });
   };
 
-  var createCardElement = function (obj) {
-    var template = document.querySelector('#card').content.querySelector('.map__card');
+  var removeCard = function () {
+    var popup = map.querySelector('.popup');
+    if (popup) {
+      popup.remove();
+    }
+  };
+
+  var addClosing = function (popup) {
+    var cardClose = popup.querySelector('.popup__close');
+    cardClose.addEventListener('click', function () {
+      removeCard();
+      removePinShadow();
+    });
+    document.addEventListener('keydown', function (evt) {
+      if (evt.key === ESCAPE_KEY) {
+        removeCard();
+        removePinShadow();
+      }
+    });
+  };
+
+  var createCardElement = function (object) {
     var card = template.cloneNode(true);
     var popupTitle = card.querySelector('.popup__title');
     var popupAddress = card.querySelector('.popup__text--address');
@@ -35,53 +54,49 @@
     var popupPhotos = card.querySelector('.popup__photos');
     var popupAvatar = card.querySelector('.popup__avatar');
 
-    popupTitle.textContent = obj.offer.title;
-    popupAddress.textContent = obj.offer.address;
-    popupPrice.textContent = obj.offer.price + '₽/ночь';
-    popupType.textContent = TypeTranslate[obj.offer.type];
-    popupCapacity.textContent = obj.offer.rooms + ' комнаты для ' + obj.offer.guests + ' гостей.';
-    popupTime.textContent = 'Заезд после ' + obj.offer.checkin + ', выезд до ' + obj.offer.checkout + '.';
-
+    popupTitle.textContent = object.offer.title;
+    popupAddress.textContent = object.offer.address;
+    popupPrice.textContent = object.offer.price + '₽/ночь';
+    popupType.textContent = TypeTranslate[object.offer.type];
+    popupType.textContent = TypeTranslate[object.offer.type];
+    popupDescription.textContent = object.offer.description;
+    popupCapacity.textContent = object.offer.rooms + ' комнаты для ' + object.offer.guests + ' гостей.';
+    popupTime.textContent = 'Заезд после ' + object.offer.checkin + ', выезд до ' + object.offer.checkout + '.';
 
     popupFeatures.forEach(function (item) {
       var feature = item.classList[FEATURE_CLASS_INDEX].slice(FEATURE_NAME_START_INDEX);
-      var featuresArray = obj.offer.features;
+      var featuresArray = object.offer.features;
       if (!featuresArray.includes(feature)) {
         item.style.display = 'none';
       }
     });
 
-    popupDescription.textContent = obj.offer.description;
-    popupPhotos.children[0].src = obj.offer.photos[0];
+    if (object.offer.photos[0]) {
+      popupPhotos.children[0].src = object.offer.photos[0];
+    } else {
+      popupPhotos.style.display = 'none';
+    }
 
-    if (obj.offer.photos.length > 1) {
+    if (object.offer.photos.length > 1) {
       var fragment = document.createDocumentFragment();
-      for (var j = 1; j < obj.offer.photos.length; j++) {
+      for (var i = 1; i < object.offer.photos.length; i++) {
         var photo = popupPhotos.children[0].cloneNode(true);
-        photo.src = obj.offer.photos[j];
+        photo.src = object.offer.photos[i];
         fragment.appendChild(photo);
       }
       popupPhotos.appendChild(fragment);
     }
 
-    popupAvatar.src = obj.author.avatar;
+    popupAvatar.src = object.author.avatar;
 
     addClosing(card);
 
     return card;
   };
 
-  var removeCard = function () {
-    var card = map.querySelector('.popup');
-    if (card) {
-      card.remove();
-    }
-  };
-
-  var renderCard = function (obj) {
-    removeCard();
-    var card = createCardElement(obj);
-    map.insertBefore(card, mapFiltres);
+  var renderCard = function (object) {
+    var popup = createCardElement(object);
+    map.insertBefore(popup, mapFiltres);
   };
 
   window.card = {
