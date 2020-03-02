@@ -51,8 +51,10 @@
     var popupFeaturesList = card.querySelector('.popup__features');
     var popupFeatures = popupFeaturesList.querySelectorAll('.popup__feature');
     var popupDescription = card.querySelector('.popup__description');
-    var popupPhotos = card.querySelector('.popup__photos');
+    var popupPhotosBlock = card.querySelector('.popup__photos');
+    var popupPhoto = popupPhotosBlock.querySelector('.popup__photo');
     var popupAvatar = card.querySelector('.popup__avatar');
+    var photoUrls = object.offer.photos;
 
     popupTitle.textContent = object.offer.title;
     popupAddress.textContent = object.offer.address;
@@ -71,21 +73,14 @@
       }
     });
 
-    if (object.offer.photos[0]) {
-      popupPhotos.children[0].src = object.offer.photos[0];
-    } else {
-      popupPhotos.style.display = 'none';
-    }
-
-    if (object.offer.photos.length > 1) {
-      var fragment = document.createDocumentFragment();
-      for (var i = 1; i < object.offer.photos.length; i++) {
-        var photo = popupPhotos.children[0].cloneNode(true);
-        photo.src = object.offer.photos[i];
-        fragment.appendChild(photo);
-      }
-      popupPhotos.appendChild(fragment);
-    }
+    popupPhoto.remove();
+    var fragment = document.createDocumentFragment();
+    photoUrls.forEach(function (item) {
+      var photo = popupPhoto.cloneNode(true);
+      photo.src = item;
+      fragment.appendChild(photo);
+    });
+    popupPhotosBlock.appendChild(fragment);
 
     popupAvatar.src = object.author.avatar;
 

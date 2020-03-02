@@ -28,6 +28,9 @@
     TIMEOUT_IN_MS: 10000,
     DOWNLOAD_URL: 'https://js.dump.academy/keksobooking/data',
     UPLOAD_URL: 'https://js.dump.academy/keksobooking',
+    DEFAULT_MESSAGE: 'Произошла ошибка соединения, попробуйте обновить страницу позже',
+    NO_INTERNET_MESSAGE: 'Произошел сбой со стороны сервера, либо у вас пропало интернет-соединение, попробуйте обновить страницу позже',
+    TIMEOUT_MESSAGE: 'Запрос выполняется слишком долго, попробуйте обновить страницу позже',
     StatusCodeMap: {
       OK: 200
     },
