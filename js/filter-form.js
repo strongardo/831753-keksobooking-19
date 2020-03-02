@@ -18,11 +18,13 @@
   var washerFeature = featuresGroup.querySelector('#filter-washer');
   var elevatorFeature = featuresGroup.querySelector('#filter-elevator');
   var conditionerFeature = featuresGroup.querySelector('#filter-conditioner');
+  var lastTimeout;
   var removeCard = window.card.remove;
   var renderPins = window.pins.render;
   var removePins = window.pins.remove;
 
   var toggleForm = function () {
+    form.reset();
     selects.forEach(function (item) {
       item.disabled = !item.disabled;
     });
@@ -71,7 +73,6 @@
     return isFeaturesSuited && isTypeSuited && isPriceSuited && isRoomsSuited && isGuestsSuited;
   };
 
-  var lastTimeout;
   var debounce = function (cb) {
     if (lastTimeout) {
       window.clearTimeout(lastTimeout);

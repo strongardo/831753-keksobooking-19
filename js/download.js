@@ -3,7 +3,10 @@
 (function () {
   var DOWNLOAD_URL = window.constants.DOWNLOAD_URL;
   var TIMEOUT_IN_MS = window.constants.TIMEOUT_IN_MS;
-  var StatusCode = window.constants.StatusCodeMap;
+  var DEFAULT_MESSAGE = window.constants.DEFAULT_MESSAGE;
+  var NO_INTERNET_MESSAGE = window.constants.NO_INTERNET_MESSAGE;
+  var TIMEOUT_MESSAGE = window.constants.TIMEOUT_MESSAGE;
+  var StatusCodeMap = window.constants.StatusCodeMap;
   var renderPins = window.pins.render;
   var toggleForm = window.form.toggle;
   var toggleFilterForm = window.filterForm.toggle;
@@ -24,17 +27,17 @@
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
-      if (xhr.status === StatusCode.OK) {
+      if (xhr.status === StatusCodeMap.OK) {
         xhrSuccessHandler(xhr.response);
       } else {
-        xhrErrorHandler('Произошла ошибка соединения, попробуйте обновить страницу позже');
+        xhrErrorHandler(DEFAULT_MESSAGE);
       }
     });
     xhr.addEventListener('error', function () {
-      xhrErrorHandler('Произошел сбой со стороны сервера, либо у вас пропало интернет-соединение, попробуйте обновить страницу позже');
+      xhrErrorHandler(NO_INTERNET_MESSAGE);
     });
     xhr.addEventListener('timeout', function () {
-      xhrErrorHandler('Запрос выполняется слишком долго, попробуйте обновить страницу позже');
+      xhrErrorHandler(TIMEOUT_MESSAGE);
     });
     xhr.timeout = TIMEOUT_IN_MS;
     xhr.open('GET', DOWNLOAD_URL);

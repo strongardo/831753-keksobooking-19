@@ -14,6 +14,8 @@
     MAX_LIMIT_X: 1198,
     MIN_LIMIT_Y: 130,
     MAX_LIMIT_Y: 630,
+    ONE_ROOMS_INDEX: 0,
+    TWO_ROOMS_INDEX: 1,
     HUNDRED_ROOMS_INDEX: 3,
     NOT_FOR_GUESTS_INDEX: 3,
     FEATURE_CLASS_INDEX: 1,
@@ -26,6 +28,9 @@
     TIMEOUT_IN_MS: 10000,
     DOWNLOAD_URL: 'https://js.dump.academy/keksobooking/data',
     UPLOAD_URL: 'https://js.dump.academy/keksobooking',
+    DEFAULT_MESSAGE: 'Произошла ошибка соединения, попробуйте обновить страницу позже',
+    NO_INTERNET_MESSAGE: 'Произошел сбой со стороны сервера, либо у вас пропало интернет-соединение, попробуйте обновить страницу позже',
+    TIMEOUT_MESSAGE: 'Запрос выполняется слишком долго, попробуйте обновить страницу позже',
     StatusCodeMap: {
       OK: 200
     },

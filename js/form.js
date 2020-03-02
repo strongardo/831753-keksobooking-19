@@ -6,6 +6,8 @@
   var MAIN_PIN_GAP = window.constants.MAIN_PIN_GAP;
   var PIN_GAP_X = window.constants.PIN_GAP_X;
   var PIN_GAP_Y = window.constants.PIN_GAP_Y;
+  var ONE_ROOMS_INDEX = window.constants.ONE_ROOMS_INDEX;
+  var TWO_ROOMS_INDEX = window.constants.TWO_ROOMS_INDEX;
   var HUNDRED_ROOMS_INDEX = window.constants.HUNDRED_ROOMS_INDEX;
   var NOT_FOR_GUESTS_INDEX = window.constants.NOT_FOR_GUESTS_INDEX;
   var AVATAR_URL = window.constants.AVATAR_URL;
@@ -42,8 +44,8 @@
     });
   };
 
-  var disableCapacityOptions = function () {
-    for (var i = 1; i < capacityOptions.length; i++) {
+  var disableCapacityOptions = function (index) {
+    for (var i = index; i < capacityOptions.length; i++) {
       capacityOptions[i].disabled = true;
     }
   };
@@ -62,7 +64,7 @@
     form.classList.toggle('ad-form--disabled');
     toggleFieldsets();
     fillAddress(MAIN_PIN_X, MAIN_PIN_Y);
-    disableCapacityOptions();
+    disableCapacityOptions(TWO_ROOMS_INDEX);
     resetPricePlaceholder();
     resetImages();
   };
@@ -77,7 +79,7 @@
 
   var roomsSelectChangeHandler = function () {
     capacitySelect.options[roomsSelect.selectedIndex].selected = true;
-    disableCapacityOptions();
+    disableCapacityOptions(ONE_ROOMS_INDEX);
 
     if (roomsSelect.selectedIndex < HUNDRED_ROOMS_INDEX) {
       for (var i = 0; i <= roomsSelect.selectedIndex; i++) {
@@ -91,7 +93,6 @@
   var typeSelectChangeHandler = function () {
     price.placeholder = PriceMap[typeSelect.value];
     price.min = PriceMap[typeSelect.value];
-    price.disabled = false;
   };
 
   roomsSelect.addEventListener('change', roomsSelectChangeHandler);
