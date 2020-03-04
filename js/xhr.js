@@ -19,12 +19,8 @@
         xhrErrorHandler();
       }
     });
-    xhr.addEventListener('error', function () {
-      xhrErrorHandler();
-    });
-    xhr.addEventListener('timeout', function () {
-      xhrErrorHandler();
-    });
+    xhr.addEventListener('error', xhrErrorHandler);
+    xhr.addEventListener('timeout', xhrErrorHandler);
     xhr.timeout = TIMEOUT_IN_MS;
 
     if (data) {

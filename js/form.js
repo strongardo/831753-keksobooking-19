@@ -26,7 +26,6 @@
   var template = document.querySelector('#success').content.querySelector('.success');
   var capacityOptions = capacitySelect.querySelectorAll('option');
   var PriceMap = window.constants.PriceMap;
-  // var uploadData = window.upload.sendData;
   var resetPage = window.inactive.resetPage;
   var createMessage = window.messages.createUploadMessage;
   var createXhr = window.xhr.create;
@@ -115,7 +114,6 @@
   };
 
   form.addEventListener('submit', function (evt) {
-    // uploadData(new FormData(form), formSubmitHandler);
     var data = new FormData(form);
     createXhr(xhrUploadSuccessHandler, xhrUploadErrorHandler, data, formSubmitHandler);
     evt.preventDefault();

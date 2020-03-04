@@ -4,13 +4,11 @@
   var ENTER_KEY = window.constants.ENTER_KEY;
   var map = document.querySelector('.map');
   var mainPin = map.querySelector('.map__pin--main');
-  // var downloadData = window.download.getData;
   var createXhr = window.xhr.create;
   var xhrDownloadSuccessHandler = window.downloadHandlers.success;
   var xhrDownloadErrorHandler = window.downloadHandlers.error;
 
   var activePage = function () {
-    // downloadData();
     createXhr(xhrDownloadSuccessHandler, xhrDownloadErrorHandler);
     map.classList.remove('map--faded');
   };
