@@ -11,7 +11,6 @@
   var guestsSelect = form.querySelector('#housing-guests');
   var selects = form.querySelectorAll('.map__filter');
   var featuresGroup = form.querySelector('.map__features');
-  var features = featuresGroup.querySelectorAll('.map__checkbox');
   var wifiFeature = featuresGroup.querySelector('#filter-wifi');
   var dishwasherFeature = featuresGroup.querySelector('#filter-dishwasher');
   var parkingFeature = featuresGroup.querySelector('#filter-parking');
@@ -38,11 +37,10 @@
     var isRoomsSuited = true;
     var isGuestsSuited = true;
     var featuresArray = item.offer.features;
+    var checkedFeatures = featuresGroup.querySelectorAll('.map__checkbox:checked');
 
-    for (var i = 0; i < features.length && isFeaturesSuited; i++) {
-      if (features[i].checked) {
-        isFeaturesSuited = featuresArray.includes(features[i].value);
-      }
+    for (var i = 0; i < checkedFeatures.length && isFeaturesSuited; i++) {
+      isFeaturesSuited = featuresArray.includes(checkedFeatures[i].value);
     }
 
     if (typeSelect.value !== 'any') {
